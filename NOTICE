@@ -1,0 +1,12 @@
+flutter_liquid_glasses
+Copyright 2026 flutter_liquid_glasses contributors
+
+This product includes algorithms and implementation details ported from
+AndroidLiquidGlass (https://github.com/Kyant0/AndroidLiquidGlass),
+Copyright 2025 Kyant, licensed under the Apache License 2.0.
+
+The liquid_glass.frag shader, the interactive highlight model, the
+closed-form damped spring parameters and the drag/press lens coupling
+are line-level ports of the corresponding Kyant backdrop library sources
+(LiquidGlass.kt, InteractiveHighlight.kt, ColorFilter.kt and the catalog
+springs). See README.md for the fidelity notes and known deviations.

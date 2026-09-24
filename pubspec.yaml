@@ -1,0 +1,47 @@
+name: flutter_liquid_glasses
+description: >-
+  Kyant-faithful liquid glass material for Flutter on Impeller — SDF refraction,
+  7-path chromatic dispersion, hue-blend tint, pointer glow and closed-form
+  spring interactions. Desktop-first, with honest fallbacks.
+version: 0.1.0
+
+repository: https://github.com/losewayy/flutter_liquid_glasses
+issue_tracker: https://github.com/losewayy/flutter_liquid_glasses/issues
+homepage: https://github.com/losewayy/flutter_liquid_glasses
+topics:
+  - liquid-glass
+  - glassmorphism
+  - impeller
+  - shaders
+  - material
+screenshots:
+  - description: Liquid glass surfaces over a busy backdrop
+    path: screenshots/surfaces.png
+  - description: Segmented control with jelly drag and dispersion edge
+    path: screenshots/demo.gif
+
+environment:
+  sdk: ^3.13.3
+  flutter: ">=3.35.0"
+
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  shaders:
+    - shaders/liquid_glass.frag
+    - shaders/glass_highlight.frag
