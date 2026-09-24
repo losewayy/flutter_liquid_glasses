@@ -55,15 +55,18 @@ class _GlassForegroundState extends State<GlassForeground> {
 
   Future<void> _load() async {
     try {
-      final program =
-          await (_program ??= loadGlassFragmentProgram('glass_highlight.frag'));
+      final program = await (_program ??= loadGlassFragmentProgram(
+        'glass_highlight.frag',
+      ));
       // The preference can change while the asset is loading.
       if (mounted && _needsShader) {
         setState(() => _shader = program.fragmentShader());
       }
     } catch (error) {
       _loadFailed = true;
-      debugPrint('Glass highlight shader unavailable; using plain edge: $error');
+      debugPrint(
+        'Glass highlight shader unavailable; using plain edge: $error',
+      );
     } finally {
       _loading = false;
     }

@@ -97,6 +97,7 @@ class _GlassPressSurfaceState extends State<GlassPressSurface>
   Ticker? _ticker;
   Duration _last = Duration.zero;
   int? _activePointer;
+
   /// 内层 LayoutBuilder 回填的真实尺寸（外层 LayoutBuilder 的约束在宽松
   /// 父级下是无限的，而 jelly 需要真实宽高算 tanh 归一化）。
   Size? _glassSize;
@@ -317,11 +318,15 @@ class _GlassPressSurfaceState extends State<GlassPressSurface>
     // 方向性形变：拖拽方向的轴拉长 4dp/高，正交轴反向微缩。
     final maxDragScale = 4.0 / size.height;
     final angle = math.atan2(drag.dy, drag.dx);
-    var sx = pressScale +
-        maxDragScale * (math.cos(angle) * drag.dx / maxDim).abs() *
+    var sx =
+        pressScale +
+        maxDragScale *
+            (math.cos(angle) * drag.dx / maxDim).abs() *
             (size.width / size.height).clamp(0.0, 1.0);
-    var sy = pressScale +
-        maxDragScale * (math.sin(angle) * drag.dy / maxDim).abs() *
+    var sy =
+        pressScale +
+        maxDragScale *
+            (math.sin(angle) * drag.dy / maxDim).abs() *
             (size.height / size.width).clamp(0.0, 1.0);
     // 松手速度过冲（LiquidBottomTabs: scaleX /= 1−v·0.75, scaleY *= 1−v·0.25，
     // v 归一化到 ±0.2）。我们的 v 是 px/s，除 2500 近似归一。
@@ -361,75 +366,77 @@ class _GlassPressSurfaceState extends State<GlassPressSurface>
             scaleY: jelly.sy,
             alignment: Alignment.bottomCenter,
             child: MouseRegion(
-        onEnter: _interactive
-            ? (e) {
-                _mouseInside = true;
-                if (_activePointer == null) _enter(e.position);
-              }
-            : null,
-        onHover: _interactive
-            ? (e) {
-                if (_activePointer == null) _hover(e.position);
-              }
-            : null,
-        onExit: _interactive ? (_) => _exit() : null,
-        child: Listener(
-          // 用 Listener 而不是 GestureDetector：材质要对「按下」出果冻反馈，但绝不该
-          // 参与手势竞技场。TapGestureRecognizer 在按下时还没赢（内层输入框会赢），
-          // 反馈就永远不来；Listener 只读原始指针，事件仍完整交给子节点。
-          behavior: HitTestBehavior.translucent,
-          onPointerDown: _interactive ? _pointerDown : null,
-          onPointerMove: _interactive ? _pointerMove : null,
-          onPointerUp: _interactive ? _pointerEnd : null,
-          onPointerCancel: _interactive
-              ? (e) => _pointerEnd(e, cancelled: true)
-              : null,
-          child: CustomPaint(
-            painter: outerShadow == null
-                ? null
-                : _GlassOuterShadowPainter(radius, outerShadow),
-            child: GlassForeground(
-              params: (_reduceTransparency
-                  ? widget.params.copyWith(highlightMode: 2)
-                  : widget.params).toPhysical(dpr),
-              child: Stack(
-                children: [
-                  // 玻璃层：Stack 由下面的内容定尺寸，这里才拿到真实短边（写在本层
-                  // 的 LayoutBuilder 里，避免用父级那套「整块聊天区」的假高度）。
-                  Positioned.fill(
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        _glassSize = constraints.biggest;
-                        return GlassSurface(
-                          params: _live(
-                            constraints.maxWidth,
-                            constraints.maxHeight,
+              onEnter: _interactive
+                  ? (e) {
+                      _mouseInside = true;
+                      if (_activePointer == null) _enter(e.position);
+                    }
+                  : null,
+              onHover: _interactive
+                  ? (e) {
+                      if (_activePointer == null) _hover(e.position);
+                    }
+                  : null,
+              onExit: _interactive ? (_) => _exit() : null,
+              child: Listener(
+                // 用 Listener 而不是 GestureDetector：材质要对「按下」出果冻反馈，但绝不该
+                // 参与手势竞技场。TapGestureRecognizer 在按下时还没赢（内层输入框会赢），
+                // 反馈就永远不来；Listener 只读原始指针，事件仍完整交给子节点。
+                behavior: HitTestBehavior.translucent,
+                onPointerDown: _interactive ? _pointerDown : null,
+                onPointerMove: _interactive ? _pointerMove : null,
+                onPointerUp: _interactive ? _pointerEnd : null,
+                onPointerCancel: _interactive
+                    ? (e) => _pointerEnd(e, cancelled: true)
+                    : null,
+                child: CustomPaint(
+                  painter: outerShadow == null
+                      ? null
+                      : _GlassOuterShadowPainter(radius, outerShadow),
+                  child: GlassForeground(
+                    params:
+                        (_reduceTransparency
+                                ? widget.params.copyWith(highlightMode: 2)
+                                : widget.params)
+                            .toPhysical(dpr),
+                    child: Stack(
+                      children: [
+                        // 玻璃层：Stack 由下面的内容定尺寸，这里才拿到真实短边（写在本层
+                        // 的 LayoutBuilder 里，避免用父级那套「整块聊天区」的假高度）。
+                        Positioned.fill(
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              _glassSize = constraints.biggest;
+                              return GlassSurface(
+                                params: _live(
+                                  constraints.maxWidth,
+                                  constraints.maxHeight,
+                                ),
+                                blurSigma: widget.blurSigma,
+                                drawForeground: false,
+                                reduceTransparency: _reduceTransparency,
+                              );
+                            },
                           ),
-                          blurSigma: widget.blurSigma,
-                          drawForeground: false,
-                          reduceTransparency: _reduceTransparency,
-                        );
-                      },
+                        ),
+                        if (widget.border != null)
+                          Positioned.fill(
+                            child: IgnorePointer(
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  borderRadius: corners,
+                                  border: widget.border,
+                                ),
+                                child: const SizedBox.expand(),
+                              ),
+                            ),
+                          ),
+                        ClipRRect(borderRadius: corners, child: widget.child),
+                      ],
                     ),
                   ),
-                  if (widget.border != null)
-                    Positioned.fill(
-                      child: IgnorePointer(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: corners,
-                            border: widget.border,
-                          ),
-                          child: const SizedBox.expand(),
-                        ),
-                      ),
-                    ),
-                  ClipRRect(borderRadius: corners, child: widget.child),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
             ),
           ),
         );

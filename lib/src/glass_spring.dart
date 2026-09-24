@@ -12,8 +12,8 @@ import 'dart:math' as math;
 /// - 按压弹簧：k=1000, ζ=1.0（临界阻尼，无过冲）
 class GlassSpring {
   GlassSpring({required this.k, required this.zeta, double x = 0})
-      : _x = x,
-        target = x;
+    : _x = x,
+      target = x;
 
   /// 刚度（原版 K 值）。
   final double k;
@@ -59,7 +59,8 @@ class GlassSpring {
     final cosT = math.cos(wd * dt);
     final sinT = math.sin(wd * dt);
     _x = target + e * (a * cosT + b * sinT);
-    _v = e * ((wd * b - zeta * wn * a) * cosT - (wd * a + zeta * wn * b) * sinT);
+    _v =
+        e * ((wd * b - zeta * wn * a) * cosT - (wd * a + zeta * wn * b) * sinT);
   }
 }
 

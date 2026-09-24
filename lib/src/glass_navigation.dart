@@ -42,10 +42,14 @@ class GlassNavigationSurface extends StatelessWidget {
     }
     final theme = GlassTheme.of(context);
     final material = switch (surfaceRole) {
-      GlassNavigationRole.sidebar =>
-        GlassMaterials.navigation(theme, surface: surfaceColor),
-      GlassNavigationRole.topbar =>
-        GlassMaterials.topbar(theme, surface: surfaceColor),
+      GlassNavigationRole.sidebar => GlassMaterials.navigation(
+        theme,
+        surface: surfaceColor,
+      ),
+      GlassNavigationRole.topbar => GlassMaterials.topbar(
+        theme,
+        surface: surfaceColor,
+      ),
     };
     return GlassSurface(
       blurSigma: material.blurSigma,

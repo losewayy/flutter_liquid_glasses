@@ -214,9 +214,10 @@ class _GlassSegmentedControlState<T> extends State<GlassSegmentedControl<T>>
     _vel.setTarget(0);
 
     if (!_dragging && !cancelled && segW > 0) {
-      final i = ((event.localPosition.dx - widget.inset) / segW)
-          .floor()
-          .clamp(0, widget.segments.length - 1);
+      final i = ((event.localPosition.dx - widget.inset) / segW).floor().clamp(
+        0,
+        widget.segments.length - 1,
+      );
       _select(i);
       _animateTo(i.toDouble());
       return;
@@ -407,11 +408,7 @@ class _GlassSegmentedControlState<T> extends State<GlassSegmentedControl<T>>
                         scale: contentScale,
                         child: Row(
                           children: [
-                            for (
-                              var i = 0;
-                              i < widget.segments.length;
-                              i++
-                            )
+                            for (var i = 0; i < widget.segments.length; i++)
                               Expanded(
                                 child: Center(
                                   child: Text(

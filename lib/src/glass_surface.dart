@@ -70,8 +70,11 @@ class _GlassSurfaceState extends State<GlassSurface> {
   void _ensureProgram() {
     final reduced =
         widget.reduceTransparency ?? ReducedTransparencyScope.of(context);
-    if (reduced || !ui.ImageFilter.isShaderFilterSupported ||
-        _program != null || _loading || _loadFailed) {
+    if (reduced ||
+        !ui.ImageFilter.isShaderFilterSupported ||
+        _program != null ||
+        _loading ||
+        _loadFailed) {
       return;
     }
     _loading = true;
@@ -84,7 +87,9 @@ class _GlassSurfaceState extends State<GlassSurface> {
       if (mounted) setState(() => _program = p);
     } catch (error) {
       _loadFailed = true;
-      debugPrint('Liquid glass shader unavailable; using native fallback: $error');
+      debugPrint(
+        'Liquid glass shader unavailable; using native fallback: $error',
+      );
     } finally {
       _loading = false;
     }
@@ -103,9 +108,9 @@ class _GlassSurfaceState extends State<GlassSurface> {
         borderRadius: BorderRadius.circular(widget.params.cornerRadius),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: (widget.fallbackColor ??
-                    GlassTheme.of(context).fallbackSurface)
-                .withValues(alpha: 1),
+            color:
+                (widget.fallbackColor ?? GlassTheme.of(context).fallbackSurface)
+                    .withValues(alpha: 1),
             borderRadius: BorderRadius.circular(widget.params.cornerRadius),
           ),
           child:
@@ -117,9 +122,9 @@ class _GlassSurfaceState extends State<GlassSurface> {
       );
       return widget.drawForeground
           ? GlassForeground(
-              params: widget.params.copyWith(highlightMode: 2).toPhysical(
-                MediaQuery.devicePixelRatioOf(context),
-              ),
+              params: widget.params
+                  .copyWith(highlightMode: 2)
+                  .toPhysical(MediaQuery.devicePixelRatioOf(context)),
               child: opaqueSurface,
             )
           : opaqueSurface;
@@ -232,8 +237,7 @@ class _GlassFallbackTintPainter extends CustomPainter {
 }
 
 // 调试件：GLASS_DEBUG_TINT=1 时每个 GlassSurface 循环染一支纯色。
-const _debugGlassTint =
-    bool.fromEnvironment('GLASS_DEBUG_TINT');
+const _debugGlassTint = bool.fromEnvironment('GLASS_DEBUG_TINT');
 var _debugTintCursor = 0;
 const _debugTintPalette = <List<double>>[
   [1, 0, 0, 1], // 红

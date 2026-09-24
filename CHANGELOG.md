@@ -1,3 +1,7 @@
+## 0.1.1
+
+- `dart format` pass across the package; no behavior changes.
+
 ## 0.1.0
 
 Initial extraction.

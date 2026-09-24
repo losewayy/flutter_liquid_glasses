@@ -28,10 +28,10 @@ class _S {
   String get surface => zh ? '表面' : 'Surface';
   String get staticOptics => zh ? '静态光学' : 'static optics';
   String get jellyHint => zh ? '按住拖我 —— 果冻玻璃' : 'Press & drag me — jelly glass';
-  String get segmentedHint =>
-      zh ? '点击或按住左右拖动' : 'Tap or press & drag sideways';
+  String get segmentedHint => zh ? '点击或按住左右拖动' : 'Tap or press & drag sideways';
   String get dialogButton => zh ? '玻璃对话框' : 'Glass dialog';
-  String get dialogBody => zh ? 'GlassDialog —— 浮层档位' : 'GlassDialog — overlay tier';
+  String get dialogBody =>
+      zh ? 'GlassDialog —— 浮层档位' : 'GlassDialog — overlay tier';
   String get showToast => zh ? '弹出 Toast' : 'Show toast';
   String get toastHint => zh ? '左右滑动消除我' : 'Swipe me sideways to dismiss';
   String get menu => zh ? '菜单' : 'Menu';
@@ -42,7 +42,8 @@ class _S {
   String get rendererBadge => ui.ImageFilter.isShaderFilterSupported
       ? (zh ? '光学 · Impeller' : 'Optics · Impeller')
       : (zh ? '降级渲染 · 无折射' : 'Fallback · no refraction');
-  List<String> get segLabels => zh ? const ['左', '中', '右'] : const ['L', 'C', 'R'];
+  List<String> get segLabels =>
+      zh ? const ['左', '中', '右'] : const ['L', 'C', 'R'];
 
   /// Slider rows: zh display name, param name stays English (it's the API).
   String sliderName(String en) => switch ((en, zh)) {
@@ -308,9 +309,7 @@ class _PlaygroundState extends State<Playground> {
                       onSelected: (v) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(
-                              s.zh ? '菜单选中：$v' : 'Menu picked: $v',
-                            ),
+                            content: Text(s.zh ? '菜单选中：$v' : 'Menu picked: $v'),
                             duration: const Duration(seconds: 1),
                           ),
                         );
@@ -515,9 +514,7 @@ class _ControlPanel extends StatelessWidget {
                 ),
                 style: IconButton.styleFrom(
                   foregroundColor: Colors.white60,
-                  side: BorderSide(
-                    color: Colors.white.withValues(alpha: .12),
-                  ),
+                  side: BorderSide(color: Colors.white.withValues(alpha: .12)),
                 ),
                 icon: const Icon(Icons.restart_alt),
               ),
@@ -552,54 +549,128 @@ class _ControlPanel extends StatelessWidget {
             ),
           ),
           _section(s.lens),
-          _slider('cornerRadius', params.cornerRadius, 0, 48,
-              (v) => onParam((p) => p.copyWith(cornerRadius: v))),
-          _slider('refractionHeight', params.refractionHeight, 0, 48,
-              (v) => onParam((p) => p.copyWith(refractionHeight: v))),
-          _slider('refractionAmount', params.refractionAmount, -80, 40,
-              (v) => onParam((p) => p.copyWith(refractionAmount: v))),
-          _slider('depthEffect', params.depthEffect, 0, 2,
-              (v) => onParam((p) => p.copyWith(depthEffect: v)),
-              hint: s.zh ? '细微·弯法线' : 'subtle'),
-          _slider('chromatic', params.chromatic, 0, 6,
-              (v) => onParam((p) => p.copyWith(chromatic: v)),
-              hint: s.zh ? '看边缘色边' : 'edge fringes'),
+          _slider(
+            'cornerRadius',
+            params.cornerRadius,
+            0,
+            48,
+            (v) => onParam((p) => p.copyWith(cornerRadius: v)),
+          ),
+          _slider(
+            'refractionHeight',
+            params.refractionHeight,
+            0,
+            48,
+            (v) => onParam((p) => p.copyWith(refractionHeight: v)),
+          ),
+          _slider(
+            'refractionAmount',
+            params.refractionAmount,
+            -80,
+            40,
+            (v) => onParam((p) => p.copyWith(refractionAmount: v)),
+          ),
+          _slider(
+            'depthEffect',
+            params.depthEffect,
+            0,
+            2,
+            (v) => onParam((p) => p.copyWith(depthEffect: v)),
+            hint: s.zh ? '细微·弯法线' : 'subtle',
+          ),
+          _slider(
+            'chromatic',
+            params.chromatic,
+            0,
+            6,
+            (v) => onParam((p) => p.copyWith(chromatic: v)),
+            hint: s.zh ? '看边缘色边' : 'edge fringes',
+          ),
           _section(s.colorControls),
-          _slider('saturation', params.saturation, 0, 2,
-              (v) => onParam((p) => p.copyWith(saturation: v))),
-          _slider('brightness', params.brightness, -0.4, 0.4,
-              (v) => onParam((p) => p.copyWith(brightness: v))),
-          _slider('contrast', params.contrast, 0, 2,
-              (v) => onParam((p) => p.copyWith(contrast: v))),
-          _slider('tint hue', tintHue, 0, 360,
-              (v) => onTint(v, params.tintColor[3]),
-              hint: s.zh ? '需tint α>0' : 'needs tint α>0'),
-          _slider('tint alpha', params.tintColor[3], 0, 0.6,
-              (v) => onTint(tintHue, v)),
+          _slider(
+            'saturation',
+            params.saturation,
+            0,
+            2,
+            (v) => onParam((p) => p.copyWith(saturation: v)),
+          ),
+          _slider(
+            'brightness',
+            params.brightness,
+            -0.4,
+            0.4,
+            (v) => onParam((p) => p.copyWith(brightness: v)),
+          ),
+          _slider(
+            'contrast',
+            params.contrast,
+            0,
+            2,
+            (v) => onParam((p) => p.copyWith(contrast: v)),
+          ),
+          _slider(
+            'tint hue',
+            tintHue,
+            0,
+            360,
+            (v) => onTint(v, params.tintColor[3]),
+            hint: s.zh ? '需tint α>0' : 'needs tint α>0',
+          ),
+          _slider(
+            'tint alpha',
+            params.tintColor[3],
+            0,
+            0.6,
+            (v) => onTint(tintHue, v),
+          ),
           _slider(
             'surface alpha',
             params.surfaceColor[3],
             0,
             0.85,
-            (v) => onParam(
-              (p) => p.copyWith(surfaceColor: [0.04, 0.04, 0.07, v]),
-            ),
+            (v) =>
+                onParam((p) => p.copyWith(surfaceColor: [0.04, 0.04, 0.07, v])),
             hint: s.zh ? '过高会盖住折射' : 'masks the lens when high',
           ),
           _section(s.highlight),
-          _slider('stroke', params.highlightStroke, 0, 8,
-              (v) => onParam((p) => p.copyWith(highlightStroke: v))),
-          _slider('alpha', params.highlightAlpha, 0, 1,
-              (v) => onParam((p) => p.copyWith(highlightAlpha: v))),
-          _slider('angle', params.highlightAngle, -1.6, 1.6,
-              (v) => onParam((p) => p.copyWith(highlightAngle: v)),
-              hint: s.zh ? '细微·光向' : 'subtle'),
-          _slider('falloff', params.highlightFalloff, 0.1, 3,
-              (v) => onParam((p) => p.copyWith(highlightFalloff: v)),
-              hint: s.zh ? '细微' : 'subtle'),
-          _slider('blur', params.highlightBlur, 0, 8,
-              (v) => onParam((p) => p.copyWith(highlightBlur: v)),
-              hint: s.zh ? '细微' : 'subtle'),
+          _slider(
+            'stroke',
+            params.highlightStroke,
+            0,
+            8,
+            (v) => onParam((p) => p.copyWith(highlightStroke: v)),
+          ),
+          _slider(
+            'alpha',
+            params.highlightAlpha,
+            0,
+            1,
+            (v) => onParam((p) => p.copyWith(highlightAlpha: v)),
+          ),
+          _slider(
+            'angle',
+            params.highlightAngle,
+            -1.6,
+            1.6,
+            (v) => onParam((p) => p.copyWith(highlightAngle: v)),
+            hint: s.zh ? '细微·光向' : 'subtle',
+          ),
+          _slider(
+            'falloff',
+            params.highlightFalloff,
+            0.1,
+            3,
+            (v) => onParam((p) => p.copyWith(highlightFalloff: v)),
+            hint: s.zh ? '细微' : 'subtle',
+          ),
+          _slider(
+            'blur',
+            params.highlightBlur,
+            0,
+            8,
+            (v) => onParam((p) => p.copyWith(highlightBlur: v)),
+            hint: s.zh ? '细微' : 'subtle',
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: SegmentedButton<double>(
@@ -623,14 +694,29 @@ class _ControlPanel extends StatelessWidget {
             ),
           ),
           _section(s.innerShadow),
-          _slider('alpha', params.shadowAlpha, 0, 0.8,
-              (v) => onParam((p) => p.copyWith(shadowAlpha: v))),
-          _slider('offset Y', params.shadowOffsetY, -8, 8,
-              (v) => onParam((p) => p.copyWith(shadowOffsetY: v)),
-              hint: s.zh ? '细微' : 'subtle'),
-          _slider('blur', params.shadowBlur, 0, 16,
-              (v) => onParam((p) => p.copyWith(shadowBlur: v)),
-              hint: s.zh ? '细微' : 'subtle'),
+          _slider(
+            'alpha',
+            params.shadowAlpha,
+            0,
+            0.8,
+            (v) => onParam((p) => p.copyWith(shadowAlpha: v)),
+          ),
+          _slider(
+            'offset Y',
+            params.shadowOffsetY,
+            -8,
+            8,
+            (v) => onParam((p) => p.copyWith(shadowOffsetY: v)),
+            hint: s.zh ? '细微' : 'subtle',
+          ),
+          _slider(
+            'blur',
+            params.shadowBlur,
+            0,
+            16,
+            (v) => onParam((p) => p.copyWith(shadowBlur: v)),
+            hint: s.zh ? '细微' : 'subtle',
+          ),
           _section(s.surface),
           _slider('backdrop blur σ', blurSigma, 0, 24, onBlur),
         ],
@@ -928,7 +1014,10 @@ class _BackdropPainter extends CustomPainter {
   }
 
   void _aurora(Canvas canvas, Size size) {
-    canvas.drawRect(Offset.zero & size, Paint()..color = const Color(0xFF0A0A14));
+    canvas.drawRect(
+      Offset.zero & size,
+      Paint()..color = const Color(0xFF0A0A14),
+    );
     final blobs = [
       (Offset(size.width * .25, size.height * .3), const Color(0xFF2060FF)),
       (Offset(size.width * .7, size.height * .25), const Color(0xFF8020ED)),

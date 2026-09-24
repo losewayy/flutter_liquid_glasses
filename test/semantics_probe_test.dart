@@ -10,9 +10,7 @@ void main() {
       params: GlassParams(),
       child: SizedBox(width: 100, height: 40),
     ),
-    'swipe': const LiquidSwipeSurface(
-      child: SizedBox(width: 100, height: 40),
-    ),
+    'swipe': const LiquidSwipeSurface(child: SizedBox(width: 100, height: 40)),
     'segmented': SizedBox(
       width: 300,
       child: GlassSegmentedControl<int>(
@@ -28,9 +26,7 @@ void main() {
     'menuButton': GlassMenuButton<String>(
       tooltip: 'm',
       onSelected: (_) {},
-      itemBuilder: () => const [
-        GlassMenuItem(value: 'a', child: Text('a')),
-      ],
+      itemBuilder: () => const [GlassMenuItem(value: 'a', child: Text('a'))],
       child: const Text('Menu'),
     ),
     'select': GlassSelect<String>(

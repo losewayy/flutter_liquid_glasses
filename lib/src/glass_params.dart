@@ -41,6 +41,7 @@ class GlassParams {
   final double refractionHeight;
   final double refractionAmount;
   final double depthEffect;
+
   /// 0 = 关闭色散；>0 = 开启且作为强度乘数（Kyant 上游硬编码 1f，这里放开成可调）。
   final double chromatic;
   final double saturation;
@@ -269,31 +270,31 @@ class GlassParams {
 
   @override
   int get hashCode => Object.hashAll([
-        cornerRadius,
-        refractionHeight,
-        refractionAmount,
-        depthEffect,
-        chromatic,
-        saturation,
-        brightness,
-        contrast,
-        Object.hashAll(tintColor),
-        Object.hashAll(surfaceColor),
-        Object.hashAll(highlightColor),
-        highlightAngle,
-        highlightFalloff,
-        highlightAlpha,
-        highlightStroke,
-        highlightBlur,
-        highlightMode,
-        Object.hashAll(shadowColor),
-        shadowAlpha,
-        shadowOffsetX,
-        shadowOffsetY,
-        shadowBlur,
-        glowX,
-        glowY,
-        glowRadius,
-        glowAlpha,
-      ]);
+    cornerRadius,
+    refractionHeight,
+    refractionAmount,
+    depthEffect,
+    chromatic,
+    saturation,
+    brightness,
+    contrast,
+    Object.hashAll(tintColor),
+    Object.hashAll(surfaceColor),
+    Object.hashAll(highlightColor),
+    highlightAngle,
+    highlightFalloff,
+    highlightAlpha,
+    highlightStroke,
+    highlightBlur,
+    highlightMode,
+    Object.hashAll(shadowColor),
+    shadowAlpha,
+    shadowOffsetX,
+    shadowOffsetY,
+    shadowBlur,
+    glowX,
+    glowY,
+    glowRadius,
+    glowAlpha,
+  ]);
 }

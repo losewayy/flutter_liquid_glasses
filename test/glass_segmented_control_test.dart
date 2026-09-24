@@ -30,9 +30,7 @@ void main() {
     tester,
   ) async {
     int? selected;
-    await tester.pumpWidget(
-      _app(selected: 1, onChanged: (v) => selected = v),
-    );
+    await tester.pumpWidget(_app(selected: 1, onChanged: (v) => selected = v));
     final rect = tester.getRect(find.byType(GlassSegmentedControl<int>));
     await tester.tapAt(rect.centerRight - const Offset(10, 0));
     expect(selected, 2);
@@ -40,11 +38,11 @@ void main() {
 
   testWidgets('horizontal drag ends on the nearest segment', (tester) async {
     int? selected;
-    await tester.pumpWidget(
-      _app(selected: 0, onChanged: (v) => selected = v),
-    );
+    await tester.pumpWidget(_app(selected: 0, onChanged: (v) => selected = v));
     final rect = tester.getRect(find.byType(GlassSegmentedControl<int>));
-    final gesture = await tester.startGesture(rect.centerLeft + const Offset(10, 0));
+    final gesture = await tester.startGesture(
+      rect.centerLeft + const Offset(10, 0),
+    );
     await gesture.moveBy(const Offset(210, 0));
     await gesture.up();
     expect(selected, 2);
@@ -122,9 +120,7 @@ void main() {
     tester.binding.platformDispatcher.accessibilityFeaturesTestValue =
         FakeAccessibilityFeatures.allOn;
     int? selected;
-    await tester.pumpWidget(
-      _app(selected: 0, onChanged: (v) => selected = v),
-    );
+    await tester.pumpWidget(_app(selected: 0, onChanged: (v) => selected = v));
     final rect = tester.getRect(find.byType(GlassSegmentedControl<int>));
     await tester.tapAt(rect.centerRight - const Offset(10, 0));
     await tester.pump();

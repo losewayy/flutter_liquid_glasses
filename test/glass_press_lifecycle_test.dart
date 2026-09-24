@@ -182,16 +182,18 @@ void main() {
     final gesture = await tester.startGesture(center);
     await _advance(tester, 10);
     expect(_glow(tester), greaterThan(0));
-    final initialParams =
-        tester.widget<GlassSurface>(find.byType(GlassSurface)).params;
+    final initialParams = tester
+        .widget<GlassSurface>(find.byType(GlassSurface))
+        .params;
     expect(initialParams.glowX, closeTo(center.dx, 1.0));
     expect(initialParams.glowY, closeTo(center.dy, 1.0));
 
     final target = center + const Offset(50, 20);
     await gesture.moveTo(target);
     await _advance(tester, 40);
-    final movedParams =
-        tester.widget<GlassSurface>(find.byType(GlassSurface)).params;
+    final movedParams = tester
+        .widget<GlassSurface>(find.byType(GlassSurface))
+        .params;
     expect(movedParams.glowX, closeTo(target.dx, 1.0));
     expect(movedParams.glowY, closeTo(target.dy, 1.0));
 
@@ -201,20 +203,22 @@ void main() {
     expect(_glow(tester), 0);
   });
 
-  testWidgets('drag-follow 橡皮筋：按住拖动有位移+方向性形变，松手回位', (
-    tester,
-  ) async {
+  testWidgets('drag-follow 橡皮筋：按住拖动有位移+方向性形变，松手回位', (tester) async {
     await tester.pumpWidget(_surface());
     final surface = find.byType(GlassPressSurface);
     final center = tester.getCenter(surface);
-    final origin = tester.getTopLeft(find.byWidgetPredicate((w) => w is SizedBox && w.width == 240));
+    final origin = tester.getTopLeft(
+      find.byWidgetPredicate((w) => w is SizedBox && w.width == 240),
+    );
     final gesture = await tester.startGesture(center);
     await _advance(tester, 10);
 
     // 按住向右下拖 60/30：tanh 橡皮筋只让玻璃挪一小段（不是 1:1 贴指针）。
     await gesture.moveTo(center + const Offset(60, 30));
     await _advance(tester, 6);
-    final draggedOrigin = tester.getTopLeft(find.byWidgetPredicate((w) => w is SizedBox && w.width == 240));
+    final draggedOrigin = tester.getTopLeft(
+      find.byWidgetPredicate((w) => w is SizedBox && w.width == 240),
+    );
     final dx = draggedOrigin.dx - origin.dx;
     final dy = draggedOrigin.dy - origin.dy;
     expect(dx, greaterThan(0.3), reason: '橡皮筋跟随必须有位移');
@@ -233,7 +237,9 @@ void main() {
     await gesture.up();
     await tester.pumpAndSettle(const Duration(milliseconds: 16));
     expect(_scale(tester), closeTo(1, 0.0001));
-    final settledOrigin = tester.getTopLeft(find.byWidgetPredicate((w) => w is SizedBox && w.width == 240));
+    final settledOrigin = tester.getTopLeft(
+      find.byWidgetPredicate((w) => w is SizedBox && w.width == 240),
+    );
     expect(settledOrigin.dx, closeTo(origin.dx, 0.5));
     expect(settledOrigin.dy, closeTo(origin.dy, 0.5));
     expect(tester.binding.transientCallbackCount, 0);
@@ -276,22 +282,28 @@ void main() {
   });
 
   testWidgets('dragFollow=false 时按下只有收缩、无位移', (tester) async {
-    await tester.pumpWidget(MaterialApp(
-      home: Center(
-        child: GlassPressSurface(
-          params: const GlassParams(),
-          dragFollow: false,
-          child: const SizedBox(width: 240, height: 80),
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Center(
+          child: GlassPressSurface(
+            params: const GlassParams(),
+            dragFollow: false,
+            child: const SizedBox(width: 240, height: 80),
+          ),
         ),
       ),
-    ));
+    );
     final surface = find.byType(GlassPressSurface);
     final center = tester.getCenter(surface);
-    final origin = tester.getTopLeft(find.byWidgetPredicate((w) => w is SizedBox && w.width == 240));
+    final origin = tester.getTopLeft(
+      find.byWidgetPredicate((w) => w is SizedBox && w.width == 240),
+    );
     final gesture = await tester.startGesture(center);
     await gesture.moveTo(center + const Offset(60, 30));
     await _advance(tester, 10);
-    final draggedOrigin = tester.getTopLeft(find.byWidgetPredicate((w) => w is SizedBox && w.width == 240));
+    final draggedOrigin = tester.getTopLeft(
+      find.byWidgetPredicate((w) => w is SizedBox && w.width == 240),
+    );
     // 按压缩放锚点 bottomCenter：左上角会因收缩挪 ~2px（240·0.015/2），
     // 这不是拖拽位移。判据是「位移量 ≪ 拖拽量」——真橡皮筋 60px 拖拽也只挪 ~3px。
     expect(draggedOrigin.dx, closeTo(origin.dx, 3.5));
@@ -301,4 +313,3 @@ void main() {
     await tester.pumpAndSettle(const Duration(milliseconds: 16));
   });
 }
-

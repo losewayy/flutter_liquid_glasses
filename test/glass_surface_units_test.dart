@@ -10,35 +10,42 @@ import 'package:flutter_liquid_glasses/src/glass_surface.dart';
 import 'package:flutter_liquid_glasses/src/reduced_transparency.dart';
 
 void main() {
-  testWidgets('reduced transparency uses plain foreground through live toggles',
-      (tester) async {
-    for (final press in [false, true]) {
-      for (final reduced in [false, true, false]) {
-        await tester.pumpWidget(MaterialApp(
-          home: ReducedTransparencyScope(
-            reduceTransparency: reduced,
-            child: Center(
-              child: SizedBox(
-                width: 120,
-                height: 60,
-                child: press
-                    ? const GlassPressSurface(
-                        params: GlassParams(highlightMode: 0),
-                        child: SizedBox(width: 120, height: 60),
-                      )
-                    : const GlassSurface(params: GlassParams(highlightMode: 0)),
+  testWidgets(
+    'reduced transparency uses plain foreground through live toggles',
+    (tester) async {
+      for (final press in [false, true]) {
+        for (final reduced in [false, true, false]) {
+          await tester.pumpWidget(
+            MaterialApp(
+              home: ReducedTransparencyScope(
+                reduceTransparency: reduced,
+                child: Center(
+                  child: SizedBox(
+                    width: 120,
+                    height: 60,
+                    child: press
+                        ? const GlassPressSurface(
+                            params: GlassParams(highlightMode: 0),
+                            child: SizedBox(width: 120, height: 60),
+                          )
+                        : const GlassSurface(
+                            params: GlassParams(highlightMode: 0),
+                          ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ));
-        final foreground =
-            tester.widget<GlassForeground>(find.byType(GlassForeground));
-        expect(foreground.params.highlightMode, reduced ? 2 : 0);
-        if (reduced) expect(find.byType(BackdropFilter), findsNothing);
-        expect(tester.takeException(), isNull);
+          );
+          final foreground = tester.widget<GlassForeground>(
+            find.byType(GlassForeground),
+          );
+          expect(foreground.params.highlightMode, reduced ? 2 : 0);
+          if (reduced) expect(find.byType(BackdropFilter), findsNothing);
+          expect(tester.takeException(), isNull);
+        }
       }
-    }
-  });
+    },
+  );
 
   for (final dpr in [1.0, 1.25, 1.75, 2.0]) {
     testWidgets('direct and press surfaces use logical lengths at DPR $dpr', (
@@ -206,7 +213,9 @@ void main() {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    ColoredBox(color: Color(0xFFFF5500)), // Bright orange background
+                    ColoredBox(
+                      color: Color(0xFFFF5500),
+                    ), // Bright orange background
                     GlassSurface(
                       reduceTransparency: true,
                       drawForeground: false,

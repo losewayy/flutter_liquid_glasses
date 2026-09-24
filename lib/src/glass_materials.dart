@@ -33,8 +33,10 @@ abstract final class GlassMaterials {
 
   /// Navigation rail / sidebar tier: shallow lens (band 14 / amount −24),
   /// no inner blur, no highlight stroke.
-  static GlassMaterialToken navigation(GlassThemeData theme, {Color? surface}) =>
-      _resolve(_navigation, surface ?? theme.navigationSurface);
+  static GlassMaterialToken navigation(
+    GlassThemeData theme, {
+    Color? surface,
+  }) => _resolve(_navigation, surface ?? theme.navigationSurface);
 
   static GlassMaterialToken topbar(GlassThemeData theme, {Color? surface}) =>
       _resolve(_navigation, surface ?? theme.topbarSurface);

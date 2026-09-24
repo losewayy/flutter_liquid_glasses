@@ -82,11 +82,7 @@ class GlassDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(material.params.cornerRadius),
       ),
-      child: GlassPanel(
-        width: width,
-        surfaceColor: surfaceColor,
-        child: child,
-      ),
+      child: GlassPanel(width: width, surfaceColor: surfaceColor, child: child),
     );
   }
 }

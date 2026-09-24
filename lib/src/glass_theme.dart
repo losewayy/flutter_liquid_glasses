@@ -62,8 +62,7 @@ class GlassThemeData {
     composerSurface: composerSurface ?? this.composerSurface,
     navigationSurface: navigationSurface ?? this.navigationSurface,
     topbarSurface: topbarSurface ?? this.topbarSurface,
-    commandPaletteSurface:
-        commandPaletteSurface ?? this.commandPaletteSurface,
+    commandPaletteSurface: commandPaletteSurface ?? this.commandPaletteSurface,
     menuSurface: menuSurface ?? this.menuSurface,
     fallbackSurface: fallbackSurface ?? this.fallbackSurface,
   );
@@ -72,11 +71,17 @@ class GlassThemeData {
     if (other == null) return this;
     return GlassThemeData(
       composerSurface: Color.lerp(composerSurface, other.composerSurface, t)!,
-      navigationSurface:
-          Color.lerp(navigationSurface, other.navigationSurface, t)!,
+      navigationSurface: Color.lerp(
+        navigationSurface,
+        other.navigationSurface,
+        t,
+      )!,
       topbarSurface: Color.lerp(topbarSurface, other.topbarSurface, t)!,
-      commandPaletteSurface:
-          Color.lerp(commandPaletteSurface, other.commandPaletteSurface, t)!,
+      commandPaletteSurface: Color.lerp(
+        commandPaletteSurface,
+        other.commandPaletteSurface,
+        t,
+      )!,
       menuSurface: Color.lerp(menuSurface, other.menuSurface, t)!,
       fallbackSurface: Color.lerp(fallbackSurface, other.fallbackSurface, t)!,
     );

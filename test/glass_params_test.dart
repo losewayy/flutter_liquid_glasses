@@ -21,10 +21,17 @@ void main() {
     for (final dpr in [1.0, 1.25, 1.75, 2.0]) {
       final actual = p.toPhysical(dpr);
       final lengths = [
-        actual.cornerRadius, actual.refractionHeight, actual.refractionAmount,
-        actual.highlightStroke, actual.highlightBlur, actual.shadowOffsetX,
-        actual.shadowOffsetY, actual.shadowBlur,
-        actual.glowX, actual.glowY, actual.glowRadius,
+        actual.cornerRadius,
+        actual.refractionHeight,
+        actual.refractionAmount,
+        actual.highlightStroke,
+        actual.highlightBlur,
+        actual.shadowOffsetX,
+        actual.shadowOffsetY,
+        actual.shadowBlur,
+        actual.glowX,
+        actual.glowY,
+        actual.glowRadius,
       ];
       expect(lengths, [
         for (final value in [25, 14, -20, 1, 0.25, -2, 2, 8, 40, 80, 90])

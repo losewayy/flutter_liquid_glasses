@@ -75,8 +75,7 @@ class _LiquidSwipeSurfaceState extends State<LiquidSwipeSurface>
     if (!t.isActive) t.start();
   }
 
-  double get _stretchAmount =>
-      (_vel.velocity().abs() / 2000).clamp(0.0, 1.0);
+  double get _stretchAmount => (_vel.velocity().abs() / 2000).clamp(0.0, 1.0);
 
   void _onPointerDown(PointerDownEvent event) {
     if (!widget.enabled || _dismissed || _pointer != null) return;
@@ -106,8 +105,7 @@ class _LiquidSwipeSurfaceState extends State<LiquidSwipeSurface>
     final dx = _x.x - _downDx;
     // 上游阈值：位移 80px 或速度 0.5px/ms（500px/s），取方向一致的判定；
     // 取消（指针被系统抢走）不视为用户甩走，只回位。
-    final shouldDismiss =
-        !cancelled && (dx.abs() > 80 || v.abs() > 500);
+    final shouldDismiss = !cancelled && (dx.abs() > 80 || v.abs() > 500);
     if (!shouldDismiss) {
       _springBack();
       return;

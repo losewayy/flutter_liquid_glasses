@@ -219,10 +219,14 @@ class _GlassMenuOverlayState<T> extends State<_GlassMenuOverlay<T>>
     duration: const Duration(milliseconds: 150),
     reverseDuration: const Duration(milliseconds: 120),
   );
-  late final Animation<double> _fade =
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut);
-  late final Animation<double> _scale = Tween<double>(begin: 0.98, end: 1)
-      .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+  late final Animation<double> _fade = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeOut,
+  );
+  late final Animation<double> _scale = Tween<double>(
+    begin: 0.98,
+    end: 1,
+  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
   final _menuKey = GlobalKey();
   Size? _menuSize;
@@ -268,13 +272,19 @@ class _GlassMenuOverlayState<T> extends State<_GlassMenuOverlay<T>>
     // 水平 clamp 8px 屏边。
     double left = widget.anchor.dx;
     if (size != null) {
-      left = left.clamp(8.0, (screen.width - size.width - 8).clamp(8.0, screen.width));
+      left = left.clamp(
+        8.0,
+        (screen.width - size.width - 8).clamp(8.0, screen.width),
+      );
     }
     double top = widget.placement == GlassMenuPlacement.below
         ? widget.anchor.dy + widget.gap
         : widget.anchor.dy - widget.gap - (size?.height ?? 0);
     if (size != null) {
-      top = top.clamp(8.0, (screen.height - size.height - 8).clamp(8.0, screen.height));
+      top = top.clamp(
+        8.0,
+        (screen.height - size.height - 8).clamp(8.0, screen.height),
+      );
     }
 
     final material = GlassMaterials.toast(
@@ -313,15 +323,21 @@ class _GlassMenuOverlayState<T> extends State<_GlassMenuOverlay<T>>
                   ? Alignment.topLeft
                   : Alignment.bottomLeft,
               child: SlideTransition(
-                position: Tween<Offset>(
-                  begin: Offset(
-                      0,
-                      widget.placement == GlassMenuPlacement.below
-                          ? -0.01
-                          : 0.01),
-                  end: Offset.zero,
-                ).animate(
-                    CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
+                position:
+                    Tween<Offset>(
+                      begin: Offset(
+                        0,
+                        widget.placement == GlassMenuPlacement.below
+                            ? -0.01
+                            : 0.01,
+                      ),
+                      end: Offset.zero,
+                    ).animate(
+                      CurvedAnimation(
+                        parent: _controller,
+                        curve: Curves.easeOut,
+                      ),
+                    ),
                 child: Opacity(
                   // 未量尺寸前不可见（等同 visibility:hidden 首帧）。
                   opacity: size == null ? 0 : 1,
@@ -372,18 +388,18 @@ class _GlassMenuOverlayState<T> extends State<_GlassMenuOverlay<T>>
             for (final entry in widget.items)
               switch (entry) {
                 GlassMenuDivider<T>() => Divider(
-                    height: 9,
-                    thickness: 0.5,
-                    indent: 8,
-                    endIndent: 8,
-                    color: theme.dividerColor,
-                  ),
+                  height: 9,
+                  thickness: 0.5,
+                  indent: 8,
+                  endIndent: 8,
+                  color: theme.dividerColor,
+                ),
                 GlassMenuItem<T>() => _MenuItemTile<T>(
-                    entry: entry,
-                    onTap: entry.enabled
-                        ? () => _close(select: entry.value)
-                        : null,
-                  ),
+                  entry: entry,
+                  onTap: entry.enabled
+                      ? () => _close(select: entry.value)
+                      : null,
+                ),
               },
           ],
         ),
@@ -460,7 +476,11 @@ class GlassSelect<T> extends StatelessWidget {
                   ),
                 ),
                 if (option.value == value)
-                  Icon(Icons.check, size: 13, color: colorScheme.onSurfaceVariant),
+                  Icon(
+                    Icons.check,
+                    size: 13,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
               ],
             ),
           ),
@@ -483,15 +503,19 @@ class GlassSelect<T> extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color:
-                      usable ? colorScheme.onSurface : Theme.of(context).disabledColor,
+                  color: usable
+                      ? colorScheme.onSurface
+                      : Theme.of(context).disabledColor,
                   fontSize: dense ? 12 : 13,
                 ),
               ),
             ),
             const SizedBox(width: 6),
-            Icon(Icons.arrow_drop_down,
-                size: dense ? 16 : 18, color: colorScheme.onSurfaceVariant),
+            Icon(
+              Icons.arrow_drop_down,
+              size: dense ? 16 : 18,
+              color: colorScheme.onSurfaceVariant,
+            ),
           ],
         ),
       ),

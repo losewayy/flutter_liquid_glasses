@@ -4,9 +4,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_liquid_glasses/src/glass_params.dart';
 
 void main() {
-  testWidgets('glass tint matches native Hue rather than HSV value replacement', (tester) async {
+  testWidgets('glass tint matches native Hue rather than HSV value replacement', (
+    tester,
+  ) async {
     await tester.runAsync(() async {
-      final program = await ui.FragmentProgram.fromAsset('shaders/liquid_glass.frag');
+      final program = await ui.FragmentProgram.fromAsset(
+        'shaders/liquid_glass.frag',
+      );
       for (final background in [
         const ui.Color(0xff206090),
         const ui.Color(0xff20e040),
@@ -25,17 +29,24 @@ void main() {
           const surface = ui.Color(0x40203040);
           const rect = ui.Rect.fromLTWH(0, 0, 16, 16);
           final sourceRecorder = ui.PictureRecorder();
-          ui.Canvas(sourceRecorder).drawRect(rect, ui.Paint()..color = background);
+          ui.Canvas(sourceRecorder)
+              .drawRect(rect, ui.Paint()..color = background);
           final sourcePicture = sourceRecorder.endRecording();
           final source = await sourcePicture.toImage(16, 16);
           final referenceRecorder = ui.PictureRecorder();
           final referenceCanvas = ui.Canvas(referenceRecorder);
           referenceCanvas
             ..drawRect(rect, ui.Paint()..color = background)
-            ..drawRect(rect, ui.Paint()
-              ..color = tint
-              ..blendMode = ui.BlendMode.hue)
-            ..drawRect(rect, ui.Paint()..color = tint.withValues(alpha: 0.75 * tint.a))
+            ..drawRect(
+              rect,
+              ui.Paint()
+                ..color = tint
+                ..blendMode = ui.BlendMode.hue,
+            )
+            ..drawRect(
+              rect,
+              ui.Paint()..color = tint.withValues(alpha: 0.75 * tint.a),
+            )
             ..drawRect(rect, ui.Paint()..color = surface);
           final referencePicture = referenceRecorder.endRecording();
           final reference = await referencePicture.toImage(16, 16);
@@ -61,7 +72,8 @@ void main() {
           final errors = [
             for (var ch = 0; ch < 4; ch++)
               (actual.getUint8((8 * 16 + 8) * 4 + ch) -
-                  expected.getUint8((8 * 16 + 8) * 4 + ch)).abs(),
+                      expected.getUint8((8 * 16 + 8) * 4 + ch))
+                  .abs(),
           ];
           var invalidPremultipliedPixels = 0;
           for (var i = 0; i < actual.lengthInBytes; i += 4) {
@@ -79,30 +91,42 @@ void main() {
           referencePicture.dispose();
           source.dispose();
           sourcePicture.dispose();
-          expect(errors, everyElement(lessThanOrEqualTo(2)),
-              reason: 'background=$background tint=$tint; native Hue + surface overlay');
-          expect(invalidPremultipliedPixels, 0,
-              reason: 'Rounded AA must attenuate premultiplied RGB together with alpha.');
+          expect(
+            errors,
+            everyElement(lessThanOrEqualTo(2)),
+            reason:
+                'background=$background tint=$tint; native Hue + surface overlay',
+          );
+          expect(
+            invalidPremultipliedPixels,
+            0,
+            reason: 'Rounded AA must attenuate premultiplied RGB together with alpha.',
+          );
         }
       }
     });
   });
 
-  testWidgets('color controls precede channel-separated dispersion', (tester) async {
+  testWidgets('color controls precede channel-separated dispersion', (
+    tester,
+  ) async {
     await tester.runAsync(() async {
       final sourceRecorder = ui.PictureRecorder();
       final sourceCanvas = ui.Canvas(sourceRecorder);
       for (var x = 0; x < 100; x++) {
         sourceCanvas.drawRect(
           ui.Rect.fromLTWH(x.toDouble(), 0, 1, 100),
-          ui.Paint()..color = x % 12 < 6
-              ? const ui.Color(0xff00ff00)
-              : const ui.Color(0xff000000),
+          ui.Paint()
+            ..color = x % 12 < 6
+                ? const ui.Color(0xff00ff00)
+                : const ui.Color(0xff000000),
         );
       }
       final sourcePicture = sourceRecorder.endRecording();
       final source = await sourcePicture.toImage(100, 100);
-      final program = await ui.FragmentProgram.fromAsset('shaders/liquid_glass.frag');
+      final program = await ui.FragmentProgram.fromAsset(
+        'shaders/liquid_glass.frag',
+      );
       final shader = program.fragmentShader();
       const GlassParams(
         cornerRadius: 16,
@@ -126,7 +150,9 @@ void main() {
       );
       final picture = recorder.endRecording();
       final output = await picture.toImage(100, 100);
-      final bytes = (await output.toByteData(format: ui.ImageByteFormat.rawRgba))!;
+      final bytes = (await output.toByteData(
+        format: ui.ImageByteFormat.rawRgba,
+      ))!;
       var separated = 0;
       for (var y = 24; y < 76; y++) {
         for (var x = 87; x < 98; x++) {
@@ -142,8 +168,12 @@ void main() {
       shader.dispose();
       source.dispose();
       sourcePicture.dispose();
-      expect(separated, greaterThan(30),
-          reason: 'Desaturating after dispersion erases the lens channel separation.');
+      expect(
+        separated,
+        greaterThan(30),
+        reason:
+            'Desaturating after dispersion erases the lens channel separation.',
+      );
     });
   });
 }
