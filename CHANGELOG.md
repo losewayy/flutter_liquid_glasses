@@ -1,3 +1,7 @@
+## 0.1.3
+
+- Restore verbatim Apache-2.0 license text so license detection works.
+
 ## 0.1.2
 
 - Shorten `description` to the pub.dev 60–180 character limit.
