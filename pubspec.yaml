@@ -1,9 +1,8 @@
 name: flutter_liquid_glasses
 description: >-
-  Kyant-faithful liquid glass material for Flutter on Impeller — SDF refraction,
-  7-path chromatic dispersion, hue-blend tint, pointer glow and closed-form
-  spring interactions. Desktop-first, with honest fallbacks.
-version: 0.1.1
+  Kyant-faithful liquid glass for Flutter on Impeller: SDF refraction,
+  7-path chromatic dispersion, hue-blend tint, pointer glow, damped springs.
+version: 0.1.2
 
 repository: https://github.com/losewayy/flutter_liquid_glasses
 issue_tracker: https://github.com/losewayy/flutter_liquid_glasses/issues

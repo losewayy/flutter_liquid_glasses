@@ -1,3 +1,7 @@
+## 0.1.2
+
+- Shorten `description` to the pub.dev 60–180 character limit.
+
 ## 0.1.1
 
 - `dart format` pass across the package; no behavior changes.
